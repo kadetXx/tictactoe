@@ -46,19 +46,12 @@ function showName(name) {
 function showUsers(users) {
   // let memberList = document.querySelector('.members ul');
   let players = document.querySelector('.content .scores h2')
-  // users.forEach((user, index) => {
-  //   let output = document.createElement('li');
-  //   output.innerText =  `${user.username}`
-  //   memberList.appendChild(output);
-  // });
 
   if(users[1]) {
     players.innerText = `${users[0].username} Vs ${users[1].username}`
   } else {
     players.innerText = `Waiting for an opponent`
   }
-
-  
 
   console.log(users[0].username)
 }
