@@ -52,7 +52,33 @@ function showUsers(users) {
   } else {
     players.innerText = `Waiting for an opponent`
   }
-
-  console.log(users[0].username)
 }
 
+
+// gamebox selector
+let squares = document.querySelectorAll('.board .game div');
+
+squares.forEach((box, index) => {
+  box.addEventListener('click', (e) => {
+    if(!e.target.innerText) {
+      socket.emit('entry', index);
+    }
+  })
+})
+
+
+// show changes 
+socket.on('entry', data => {
+  squares[data[0]].innerText = data[1];
+})
+
+socket.on('changeTurn', data => {
+  document.querySelector('.board .game').className = `game ${data.className}`
+})
+
+
+// update game on input
+// function show(data) {
+//   squares[data[1]].innerText = data[0];
+//   getBoardState();
+// }

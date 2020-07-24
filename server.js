@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const socketio = require('socket.io'); 
 const game = require('./utils/game');
+const { turns } = require('./utils/game');
 
 const app = express();
 const server = http.createServer(app);
@@ -39,6 +40,24 @@ io.on('connection', socket => {
     let user = game.getCurrentUser(socket.id);
     socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
     socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
+  })
+
+
+  //call turn function 
+  socket.on('entry', move => {
+    let user = game.getCurrentUser(socket.id);
+    let users = game.getRoomUsers(user.room);
+    
+    if (user.username == users[0].username) {
+      socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
+      socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
+
+      io.emit('entry', [move, 'X']);
+    } else if (user.username == users[1].username) {
+      socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
+      socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
+      io.emit('entry', [move, 'O']);
+    }
   })
 
   // handle disconnection

@@ -127,19 +127,24 @@
         height: 300px;
         width: 300px;
 
-       .game {
-         height: 100%;
-         width: 100%;
-         display: flex;
-         flex-wrap: wrap;
+        .game {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
 
-         div {
-           height: 98px;
-           width: 98px;
-           margin: 1px;
-           background-color: tan;
-         }
-       }
+          div {
+            height: 98px;
+            width: 98px;
+            margin: 1px;
+            background-color: tan;
+          }
+        }
+
+        .disable {
+          user-select: none;
+          pointer-events: none;
+        }
       }
     }
     

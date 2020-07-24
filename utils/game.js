@@ -3,6 +3,7 @@ let users = [];
 class game {
   constructor() {
     this.currentUser = null;
+    this.toPlay = true
   }
 
   static formatMsg(username, text, position) {
@@ -27,7 +28,7 @@ class game {
         this.currentUser = person;
       }
     })
-    
+
     return this.currentUser;
   }
 
@@ -42,7 +43,15 @@ class game {
   static getRoomUsers(room) {
     return users.filter(user => user.room == room);
   }
+
+  static changeTurn(userName, className) {
+    return {
+      userName,
+      className
+    }
+  }
 }
 
 
 module.exports = game;
+
