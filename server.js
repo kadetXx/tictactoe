@@ -48,18 +48,48 @@ io.on('connection', socket => {
     let user = game.getCurrentUser(socket.id);
     let users = game.getRoomUsers(user.room);
     
-    if (user.username == users[0].username) {
+    if (user.username == users[0].username && users[1].username) {
       socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
       socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
 
-      io.emit('entry', [move, 'X']);
+      io.to(user.room).emit('entry', [move, 'X']);
     } else if (user.username == users[1].username) {
       socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
       socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
-      io.emit('entry', [move, 'O']);
+      io.to(user.room).emit('entry', [move, 'O']);
     }
   })
 
+
+  // state change
+  socket.on('state-change', combinations => {
+    let user = game.getCurrentUser(socket.id);
+    let users = game.getRoomUsers(user.room);
+
+    if (user.username == users[0].username || user.username == users[1].username) {
+      io.to(user.room).emit('state-change', [...combinations]);
+    }
+  })
+
+  //game over
+  socket.on('gameOver', data => {
+
+    let user = game.getCurrentUser(socket.id);
+    let users = game.getRoomUsers(user.room);
+    
+    if (user.username == users[0].username) {
+      
+      socket.emit('gameOver', `${data} You win`);
+      io.broadcast.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
+      io.broadcast.to(user.room).emit('gameOver', `${data} ${user.username} wins`);
+
+    } else if (user.username == users[1].username) {
+      socket.emit('gameOver', `${data} You win`);
+      io.broadcast.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
+      io.broadcast.to(user.room).emit('gameOver', `${data} ${user.username} wins`);
+    }
+  })
+  
   // handle disconnection
   socket.on('disconnect', () => {
 

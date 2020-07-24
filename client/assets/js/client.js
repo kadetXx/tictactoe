@@ -44,7 +44,7 @@ function showName(name) {
 
 // output room members
 function showUsers(users) {
-  // let memberList = document.querySelector('.members ul');
+  
   let players = document.querySelector('.content .scores h2')
 
   if(users[1]) {
@@ -70,15 +70,59 @@ squares.forEach((box, index) => {
 // show changes 
 socket.on('entry', data => {
   squares[data[0]].innerText = data[1];
+
+  getBoardState();
 })
 
+// change turn
 socket.on('changeTurn', data => {
   document.querySelector('.board .game').className = `game ${data.className}`
 })
 
+// state change
 
-// update game on input
-// function show(data) {
-//   squares[data[1]].innerText = data[0];
-//   getBoardState();
-// }
+function getBoardState() {
+  let obj = [];
+  squares.forEach((square, index) => {
+    if (square.innerText) {
+      obj[index] = square.innerText;
+    } else {
+      obj[index] = '';
+    }
+  })
+
+  socket.emit('state-change', obj)
+} 
+
+// receive changes
+
+socket.on('state-change', (state) => {
+  squares.forEach((square, index) => {
+    square.innerText = state[index];
+  })
+
+  let rows = [
+    `${state[0]} ${state[1]} ${state[2]}`,
+    `${state[3]} ${state[4]} ${state[5]}`,
+    `${state[6]} ${state[7]} ${state[8]}`,
+    `${state[0]} ${state[4]} ${state[8]}`,
+    `${state[2]} ${state[4]} ${state[6]}`,
+    `${state[0]} ${state[3]} ${state[6]}`,
+    `${state[1]} ${state[4]} ${state[7]}`,
+    `${state[2]} ${state[5]} ${state[8]}`,
+  ];
+
+  let win = ['X X X', 'O O O'];
+
+  rows.forEach(row => {
+    if (row == win[0] || row == win[1]) {
+     socket.emit('game-over', 'Game Over');
+    }
+  })
+});
+
+//on game over 
+socket.on('gameOver', data => {
+  document.querySelector('.scores h2').innerText = `${data}`
+})
+
