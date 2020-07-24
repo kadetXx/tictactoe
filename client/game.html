@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.min.css">
+<title>Game</title>
+</head>
+<body id="game">
+
+  <div class="row dashboard">
+    <div class="col-lg-3 sidebar">
+      <h3>Travertic</h3>
+
+      <div class="chat-box">
+        <div id="chat-messages">
+          <div>
+            <!-- Message here -->
+          </div>
+        </div>
+
+        <form id="chat">
+          <div class="form-group">
+            <label for=""></label>
+            <input type="text" class="form-control" name="" id="msg" aria-describedby="helpId" placeholder="">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-9 content">
+      <div class="scores">
+        <h2>Kadet Vs Ade</h2>
+      </div>
+
+      <div class="board">
+        <div class="game">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="assets/js/client.js"></script>
+</body>
+</html>
