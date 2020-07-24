@@ -25,10 +25,11 @@
         height: 400px;
         border-top: 2px solid darken($color: tan, $amount: 20);
         border-radius: 50px 50px 0 0;
-        padding: 3px 10px;
+        padding: 0px 10px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        overflow: hidden;
 
         #chat-messages {
           overflow-y: auto;
@@ -37,7 +38,9 @@
           padding: 10px;
 
           &::-webkit-scrollbar {
-            width: 5px;
+            width: 3px;
+            height: 20px;
+            border-radius: 5px;
           }
           
             // Track 
@@ -47,7 +50,7 @@
            
             // Handle
           &::-webkit-scrollbar-thumb {
-            background: darken($color: tan, $amount: 50); 
+            background: darken($color: tan, $amount: 30); 
           }
           
             // Handle hover
@@ -89,6 +92,18 @@
             }
           }
           
+        }
+
+        #chat {
+          .form-group {
+            #msg {
+              background-color: lighten($color: tan, $amount: 20);
+              &:focus{
+                border-color: darken($color: tan, $amount: 20);
+                box-shadow: 0 0 2px 1px darken($color: tan, $amount: 20);
+              }
+            }
+          }
         }
       }
     }
