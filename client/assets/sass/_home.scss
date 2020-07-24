@@ -1,8 +1,33 @@
 #home {
   padding: 5%;
 
-  .col {
+  .sign-in-box {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    padding: 0 20%;
+
+    .head {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-container {
+      width: 100%;
+
+      form {
+
+        button {
+          width: 100%;
+        }
+ 
+        // #username {
+        //   display: none;
+        // }
+      }
+    }
   }
 }

@@ -1,14 +1,26 @@
 const socket = io();
 
+// get username and room from homepage
+let { username, room  } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true
+});
+
+if (username == '') {
+  username = prompt('Please enter a username');
+}
+
+// join chatroom 
+socket.emit('joinRoom',  {username, room})
+
 // show init message 
 socket.on('message', message => {
   let msgBox = document.querySelector('#chat-messages div');
 
-  let p = document.createElement('p');
-  p.className = message[1]
-  p.innerText = message[0];
+  let msg = document.createElement('div');
+  msg.className = message.position
+  msg.innerHTML = `<small>${message.username}</small><p>${message.text}</p>`;
 
-  msgBox.appendChild(p);
+  msgBox.appendChild(msg);
 })
 
 // allow users send messages
