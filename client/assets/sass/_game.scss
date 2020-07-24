@@ -46,7 +46,6 @@
 
           &::-webkit-scrollbar {
             width: 3px;
-            height: 20px;
             border-radius: 5px;
           }
           
@@ -57,7 +56,9 @@
            
             // Handle
           &::-webkit-scrollbar-thumb {
-            background: darken($color: tan, $amount: 30); 
+            background: darken($color: tan, $amount: 10); 
+            max-height: 5px;
+            border-radius: 10px;
           }
           
             // Handle hover
@@ -122,9 +123,10 @@
         
         div {
           margin: 1px;
-          background-color:grey;
+          background-color: grey;
           padding: 4px 6px;
           cursor: pointer;
+          border-radius: 5px;
         }
       }
     }
