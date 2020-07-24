@@ -2,7 +2,7 @@ let users = [];
 
 class game {
   constructor() {
-    
+    this.currentUser = null;
   }
 
   static formatMsg(username, text, position) {
@@ -14,15 +14,25 @@ class game {
   }
 
   static userJoin(id, username, room) {
-    const user = {id, username, room}
+    const user = {id, username, room};
 
     users.push(user);
-
+    console.log('Joined')
+    console.log(users)
     return user;
+    
   }
 
   static getCurrentUser(id) {
-    return users.find(user => user.id = id);
+    users.forEach(person => {
+      if (person.id == id) {
+        this.currentUser = person;
+      }
+    })
+    console.log(this.currentUser);
+    console.log(`get ${id}`);
+    console.log(users);
+    return this.currentUser;
   }
 
   static userLeaves(id) {

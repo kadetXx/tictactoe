@@ -21,7 +21,6 @@ io.on('connection', socket => {
     const user = game.userJoin(socket.id, username, room);
     socket.join(user.room)
 
-
     // send message to single user
     socket.emit('message', game.formatMsg(botName, 'Welcome to the game', 'right'))
 
@@ -31,10 +30,9 @@ io.on('connection', socket => {
 
   // listen for chat message
   socket.on('chatMessage', msg => {
-    const user = game.getCurrentUser(socket.id);
-
+    let user = game.getCurrentUser(socket.id);
     socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
-    socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'))
+    socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
   })
 
   // handle disconnection
@@ -47,11 +45,11 @@ io.on('connection', socket => {
     }
   })
 
-  // send room users info
-  io.to(user.room).emit('roomUsers', {
-    room: user.room,
-    users: game.getRoomUsers(user.room)
-  })
+  // // send room users info
+  // io.to(user.room).emit('roomUsers', {
+  //   room: user.room,
+  //   users: game.getRoomUsers(user.room)
+  // })
 })
 
 // set static folder 

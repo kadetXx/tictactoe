@@ -1,13 +1,9 @@
-const socket = io();
-
 // get username and room from homepage
 let { username, room  } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
-if (username == '') {
-  username = prompt('Please enter a username');
-}
+const socket = io();
 
 // join chatroom 
 socket.emit('joinRoom',  {username, room})
