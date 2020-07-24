@@ -10,7 +10,10 @@ if (!username) {
 const socket = io();
 
 // join chatroom 
-socket.emit('joinRoom',  {username, room})
+socket.emit('joinRoom',  {username, room});
+
+// set chat url
+document.querySelector('#join').setAttribute('href', window.location.href)
 
 // show init message 
 socket.on('message', message => {
