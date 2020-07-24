@@ -6,6 +6,7 @@
 
     h1,h2,h3,h4,h5,h6 {
       color: darken($color: tan, $amount: 50) !important;
+      text-transform: capitalize;
     }
     
     .sidebar {

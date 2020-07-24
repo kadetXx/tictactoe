@@ -17,8 +17,6 @@ class game {
     const user = {id, username, room};
 
     users.push(user);
-    console.log('Joined')
-    console.log(users)
     return user;
     
   }
@@ -29,9 +27,7 @@ class game {
         this.currentUser = person;
       }
     })
-    console.log(this.currentUser);
-    console.log(`get ${id}`);
-    console.log(users);
+    
     return this.currentUser;
   }
 

@@ -29,3 +29,37 @@ form.addEventListener('submit', (e) => {
   e.target.elements.msg.value = ''
   socket.emit('chatMessage', msg);
 })
+
+// get room name and users
+socket.on('roomUsers', ({room, users}) => {
+  showName(room);
+  showUsers(users);
+})
+
+// output room name
+function showName(name) {
+  let roomName = document.querySelector('.sidebar h3');
+  roomName.innerText = `Game Room ${name}`;
+}
+
+// output room members
+function showUsers(users) {
+  // let memberList = document.querySelector('.members ul');
+  let players = document.querySelector('.content .scores h2')
+  // users.forEach((user, index) => {
+  //   let output = document.createElement('li');
+  //   output.innerText =  `${user.username}`
+  //   memberList.appendChild(output);
+  // });
+
+  if(users[1]) {
+    players.innerText = `${users[0].username} Vs ${users[1].username}`
+  } else {
+    players.innerText = `Waiting for an opponent`
+  }
+
+  
+
+  console.log(users[0].username)
+}
+
