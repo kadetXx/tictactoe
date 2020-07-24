@@ -11,7 +11,7 @@
     }
     
     .sidebar {
-      height: 100%;
+      height: 100vh;
       padding: 3% 2%;
       background-color: tan;
       display: flex;
@@ -20,11 +20,16 @@
       align-items: center;
       position: relative;
 
+      a {
+        text-align: center;
+        color: green;
+      }
+
       .chat-box {
         position: absolute;
         bottom: 0;
         width: 100%;
-        height: 400px;
+        height: 450px;
         border-top: 2px solid darken($color: tan, $amount: 20);
         border-radius: 50px 50px 0 0;
         padding: 0px 10px;
@@ -106,6 +111,20 @@
               }
             }
           }
+        }
+      }
+
+      .emojis {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        
+        div {
+          margin: 1px;
+          background-color:grey;
+          padding: 4px 6px;
+          cursor: pointer;
         }
       }
     }

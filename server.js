@@ -23,10 +23,10 @@ io.on('connection', socket => {
     socket.join(user.room)
 
     // send message to single user
-    socket.emit('message', game.formatMsg(botName, 'Welcome to the game', 'right'))
+    socket.emit('message', game.formatMsg(botName, `Welcome ${user.username}`, 'right'))
 
     // send message to all other users
-    socket.broadcast.to(user.room).emit('message', game.formatMsg(botName, `${user.username} has joined`, 'left'));
+    socket.broadcast.to(user.room).emit('message', game.formatMsg(botName, `${user.username} just sneaked in`, 'left'));
 
     // send room users info
     io.to(user.room).emit('roomUsers', {
@@ -76,18 +76,9 @@ io.on('connection', socket => {
 
     let user = game.getCurrentUser(socket.id);
     let users = game.getRoomUsers(user.room);
-    
-    if (user.username == users[0].username) {
-      
-      socket.emit('gameOver', `${data} You win`);
-      io.broadcast.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
-      io.broadcast.to(user.room).emit('gameOver', `${data} ${user.username} wins`);
-
-    } else if (user.username == users[1].username) {
-      socket.emit('gameOver', `${data} You win`);
-      io.broadcast.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
-      io.broadcast.to(user.room).emit('gameOver', `${data} ${user.username} wins`);
-    }
+ 
+    io.to(user.room).emit('gameOver', `${data} reload to play again`);
+    io.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
   })
   
   // handle disconnection
@@ -96,7 +87,7 @@ io.on('connection', socket => {
     const user = game.userLeaves(socket.id);
 
     if (user) {
-      io.to(user.room).emit('message', game.formatMsg(botName, `${user.username} has left the chat`, 'left'));
+      io.to(user.room).emit('message', game.formatMsg(botName, `${user.username} has left the room`, 'left'));
       // send room users info
       io.to(user.room).emit('roomUsers', {
         room: user.room,

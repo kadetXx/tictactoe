@@ -24,10 +24,18 @@
           width: 100%;
         }
  
-        // #username {
-        //   display: none;
-        // }
+        #username {
+          display: none;
+        }
       }
+    }
+  }
+}
+
+@media(max-width: 600px) {
+  #home {
+    .sign-in-box {
+      padding: 0 5%;
     }
   }
 }

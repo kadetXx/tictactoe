@@ -3,6 +3,10 @@ let { username, room  } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
+if (!username) {
+  username = prompt('Choose a username')
+} 
+
 const socket = io();
 
 // join chatroom 
@@ -29,6 +33,15 @@ form.addEventListener('submit', (e) => {
   e.target.elements.msg.value = ''
   socket.emit('chatMessage', msg);
 })
+
+// eneble emojis
+document.querySelectorAll('.emojis div').forEach(emoji => {
+  emoji.addEventListener('click', (e) => {
+    document.querySelector('#msg').value += emoji.innerText
+    document.querySelector('#msg').focus();
+  })
+})
+
 
 // get room name and users
 socket.on('roomUsers', ({room, users}) => {
@@ -116,7 +129,7 @@ socket.on('state-change', (state) => {
 
   rows.forEach(row => {
     if (row == win[0] || row == win[1]) {
-     socket.emit('game-over', 'Game Over');
+     socket.emit('gameOver', 'Game Over');
     }
   })
 });
