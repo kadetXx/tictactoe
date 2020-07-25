@@ -31,7 +31,7 @@
         width: 100%;
         height: 450px;
         border-top: 2px solid darken($color: tan, $amount: 20);
-        border-radius: 50px 50px 0 0;
+        border-radius: -50px -50px 0 0;
         padding: 0px 10px;
         display: flex;
         flex-direction: column;
@@ -54,14 +54,14 @@
             background: transparent 
           }
            
-            // Handle
+          // Handle
           &::-webkit-scrollbar-thumb {
-            background: darken($color: tan, $amount: 10); 
+            background: darken($color: tan, $amount: 15); 
             max-height: 5px;
             border-radius: 10px;
           }
           
-            // Handle hover
+          // Handle hover
           &::-webkit-scrollbar-thumb:hover {
             background: #555; 
           }
