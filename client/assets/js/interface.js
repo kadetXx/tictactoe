@@ -22,6 +22,17 @@ document.querySelector('#join').addEventListener('click', () => {
   document.execCommand("copy");
   $temp.remove();
   alert("Link copied to clipboard");
+
+})
+
+//mobile nav 
+
+document.querySelector('#show-game-mobile').addEventListener('click', e => {
+  document.querySelector('.content').classList.add('content-show')
+})
+
+document.querySelector('#hide-game-mobile').addEventListener('click', e => {
+  document.querySelector('.content').classList.remove('content-show')
 })
 
 

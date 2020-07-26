@@ -56,7 +56,8 @@
 <script>
   // logout
   document.querySelector('#logout').addEventListener('click', (e) => {
-    localStorage.removeItem('traverticUser')
+    localStorage.removeItem('traverticUser');
+    alert('Reset Successful')
   })
 
   window.addEventListener('resize', () => {

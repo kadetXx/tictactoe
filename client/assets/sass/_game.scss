@@ -1,9 +1,12 @@
 #game {
   background-color: lighten($color: tan, $amount: 20);
+  overflow-x: hidden;
+  height: calc(var(--vh, 1vh) * 100);
   
   .dashboard {
     height: 100vh;
     margin: 0;
+    
 
     h1,h2,h3,h4,h5,h6 {
       color: darken($color: tan, $amount: 50) !important;
@@ -24,10 +27,25 @@
       position: relative;
       padding: 0;
 
+
       #join-link {
         position: absolute;
         z-index: -100;
         opacity: 0;
+      }
+
+      .menu-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+          margin: 5px;
+        }
+
+        #show-game-mobile {
+          display: none;
+        }
       }
 
       &-header {
@@ -57,7 +75,6 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        overflow: hidden;
 
         #chat-messages {
           overflow-y: auto;
@@ -157,6 +174,7 @@
               #msg {
                 background-color: lighten($color: tan, $amount: 20);
                 border: none;
+                flex-grow: 1;
 
                 &:focus{
                   border-color: transparent;
@@ -245,26 +263,43 @@
           pointer-events: none;
         }
       }
+
+      .toggle-buttons {
+        position: absolute;
+        bottom: 4%;
+
+        .reset, #hide-game-mobile {
+          display: none;
+        }
+
+        #reset {
+          display: inline-block;
+        }
+        
+      }
     }
     
   } 
 
   @media (max-width: 993px) {
     .dashboard {
-      height: 100%;
-      flex-direction: column-reverse;
-
       .content {
-        align-items: center;
-        justify-content: center;
+        position: absolute;
+        display: flex;
+        z-index: 9;
+        background-color: lighten($color: tan, $amount: 20);
+        text-align: center;
+        transform: translateX(-110vw);
+
+        .toggle-buttons {
+          #hide-game-mobile {
+            display: inline-block;
+          }
+        }
       }
-    }
-  }
 
-  @media (max-width: 570px) {
-    .dashboard {
-      .content {
-        display: none;
+      .content-show {
+        transform: translateX(0);
       }
 
       .sidebar {
@@ -272,7 +307,13 @@
         width: 100%;
         height: calc(var(--vh, 1vh) * 100);
         margin: 0 auto;
-        
+
+        .menu-buttons {
+  
+          #show-game-mobile {
+            display: inline-block;
+          }
+        }
         
         #chat > div > div {
           display: none;
