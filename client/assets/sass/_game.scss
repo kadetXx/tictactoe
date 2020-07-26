@@ -39,7 +39,7 @@
         align-items: center;
 
         button {
-          margin: 5px;
+          margin: 0 5px;
         }
 
         #show-game-mobile {
@@ -286,6 +286,7 @@
         height: calc(var(--vh, 1vh) * 100);
         position: absolute;
         display: flex;
+        justify-content: center;
         z-index: 9;
         background-color: lighten($color: tan, $amount: 20);
         text-align: center;
