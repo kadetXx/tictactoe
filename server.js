@@ -79,6 +79,8 @@ io.on('connection', socket => {
         socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
         socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
         io.to(user.room).emit('entry', [move, 'O']);
+      } else {
+        socket.emit('message', game.formatMsg(botName, 'Hang on, someone will join soon 😇😇', 'left'));
       }
     }
     

@@ -52,9 +52,12 @@ if (!username) {
 
     // allow users send messages
     let form = document.querySelector('#chat');
+    let scrollableArea = document.querySelector('#chat-messages');
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      scrollableArea.scrollTop = scrollableArea.scrollHeight;
 
       const msg = e.target.elements.msg.value;
       e.target.elements.msg.value = ''
