@@ -14,10 +14,7 @@ document.addEventListener('click', (e) => {
 // copy game link
 document.querySelector('#join-link').innerText = window.location.href
 document.querySelector('#join').addEventListener('click', () => {
-  // var copyText = document.getElementById("join-link");
-  // copyText.select();
-  // copyText.setSelectionRange(0, 99999)
-  // document.execCommand("copy");
+
 
   var $temp = $("<input>");
   $("body").append($temp);
@@ -27,6 +24,9 @@ document.querySelector('#join').addEventListener('click', () => {
   alert("Link copied to clipboard");
 })
 
-// function copyToClipboard(element) {
-  
-// }
+
+window.addEventListener('resize', () => {
+  // We execute the same script as before
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+});

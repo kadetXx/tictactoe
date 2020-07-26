@@ -263,16 +263,20 @@
       .content {
         display: none;
       }
-    }
 
-    .sidebar {
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      #chat > div > div {
-        display: none;
+      .sidebar {
+        height: 100vh;
+        width: 100%;
+        height: calc(var(--vh, 1vh) * 100);
+        margin: 0 auto;
+        
+        
+        #chat > div > div {
+          display: none;
+        }
       }
     }
+
   }
 }
 
