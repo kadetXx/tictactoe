@@ -36,6 +36,7 @@ document.querySelector('#hide-game-mobile').addEventListener('click', e => {
 })
 
 
+// chrome bug fix
 window.addEventListener('resize', () => {
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
