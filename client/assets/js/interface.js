@@ -15,7 +15,6 @@ document.addEventListener('click', (e) => {
 document.querySelector('#join-link').innerText = window.location.href
 document.querySelector('#join').addEventListener('click', () => {
 
-
   var $temp = $("<input>");
   $("body").append($temp);
   $temp.val($('#join-link').text()).select();
@@ -37,6 +36,10 @@ document.querySelector('#hide-game-mobile').addEventListener('click', e => {
 
 
 // chrome bug fix
+
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 window.addEventListener('resize', () => {
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
