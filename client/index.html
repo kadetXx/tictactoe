@@ -20,10 +20,6 @@
             <h2>Travertic</h2>
           </div>
 
-          <div class="members">
-
-          </div>
-
           <div class="form-container">
             <form action="/game.html">
               <div class="form-group">
@@ -41,9 +37,13 @@
                 </input>
               </div>
 
-              <button class="btn btn-primary btn-large" type="submit">Create</button></a>
+              <button class="btn btn-dark btn-large" type="submit">Create</button></a>
             </form>
           </div>
+        </div>
+
+        <div id="logout" class="logout">
+          <button class="btn btn-dark">Reset Username</button>
         </div>
       </dv>
     </div>
@@ -52,5 +52,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script>
+  // logout
+  document.querySelector('#logout').addEventListener('click', (e) => {
+    localStorage.removeItem('traverticUser')
+  })
+</script>
+
 </body>
 </html>

@@ -30,6 +30,16 @@
       }
     }
   }
+
+  .logout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 20%;
+    margin-top: 30px;
+  }
 }
 
 @media(max-width: 600px) {

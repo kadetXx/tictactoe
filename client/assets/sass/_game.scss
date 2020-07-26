@@ -20,6 +20,12 @@
       position: relative;
       padding: 0;
 
+      #join-link {
+        position: absolute;
+        z-index: -100;
+        opacity: 0;
+      }
+
       &-header {
         display: flex;
         flex-direction: column;
@@ -95,6 +101,7 @@
 
               p {
                 margin: 0;
+                // max-width: 100%;
               }
 
               small {
@@ -246,6 +253,20 @@
       .content {
         align-items: center;
         justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 570px) {
+    .dashboard {
+      .content {
+        display: none;
+      }
+    }
+
+    .sidebar {
+      #chat > div > div {
+        display: none;
       }
     }
   }

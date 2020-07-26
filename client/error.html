@@ -12,15 +12,22 @@
 
 <style>
   body {
-    padding: 20%;
+    padding: 5%;
+    height: 100vh;
   }
 
-  .message {
+  .container, .message {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
   }
+
+  h2, p, a {
+    text-align: center;
+  }
+
 </style>
 </head>
 <body>
@@ -28,9 +35,10 @@
 <div class="container">
   <div class="message">
     <h2>
-      Error - You entered an invalid details
+      Error - Invalid Credentials
     </h2>
-    <a href="index.html"><button class="btn btn-primary">Take me back Home</button></a>
+    <p>Your details seem not to correspond with requirements. Try resetting username from hompage if this problem persists</p>
+    <a href="index.html"><button class="btn btn-dark">Take me back Home</button></a>
   </div>
 </div>
 
