@@ -67,8 +67,7 @@ io.on('connection', socket => {
     } else {
 
       let users = game.getRoomUsers(user.room);
-      console.log(users)
-
+    
       //check if there is a second player to start game
       if (user.id == users[0].id && users[1]) {
         socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
@@ -79,8 +78,10 @@ io.on('connection', socket => {
         socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
         socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
         io.to(user.room).emit('entry', [move, 'O']);
-      } else {
+      } else if (!users[1]){
         socket.emit('message', game.formatMsg(botName, 'Hang on, someone will join soon 😇😇', 'left'));
+      } else {
+        socket.emit('message', game.formatMsg(botName, "Hand's off, you are spectating", 'left'));
       }
     }
     
@@ -121,7 +122,9 @@ io.on('connection', socket => {
     const user = game.userLeaves(socket.id);
 
     if (user) {
+      //notify members of leave
       io.to(user.room).emit('message', game.formatMsg(botName, `${user.username} just left`, 'left'));
+      
       // send room users info
       io.to(user.room).emit('roomUsers', {
         room: user.room,

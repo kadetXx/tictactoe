@@ -59,9 +59,13 @@ if (!username) {
 
       scrollableArea.scrollTop = scrollableArea.scrollHeight;
 
-      const msg = e.target.elements.msg.value;
-      e.target.elements.msg.value = ''
-      socket.emit('chatMessage', msg);
+      let message = document.querySelector('#chat input');
+
+      if (!message.value.length < 1) {
+        const msg = e.target.elements.msg.value;
+        e.target.elements.msg.value = ''
+        socket.emit('chatMessage', msg);
+      }
     })
 
     // enable emojis
@@ -168,7 +172,6 @@ if (!username) {
     socket.on('gameOver', data => {
       document.querySelector('.scores h2').innerText = `${data}`
     })
-
 
   }
 } 

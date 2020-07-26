@@ -30,8 +30,10 @@
 
         <form id="chat" autocomplete="off">
           <div class="form-group">
-            <label for=""></label>
-            <input type="text" class="form-control" name="" id="msg" aria-describedby="helpId" placeholder="">
+            <label>
+              <input type="text" class="form-control" name="" id="msg" aria-describedby="helpId" placeholder="Message">
+              <button type="submit"><i class="material-icons">send</i></button>
+            </label>
             <div class="emojis">
               <div>🎮</div>
               <div>⏰</div>
@@ -71,6 +73,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js" integrity="sha512-BHtomM5XDcUy7tDNcrcX1Eh0RogdWiMdXl3wJcKB3PFekXb3l5aDzymaTher61u6vEZySnoC/SAj2Y/p918Y3w==" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="assets/js/interface.js"></script>
 <script src="assets/js/client.js"></script>
 </body>
 </html>
