@@ -5,9 +5,10 @@
     height: 100vh;
     margin: 0;
 
-    h1,h2,h3,h4,h5,h6 {
+    h1,h2,h3,h4,h5,h6,a {
       color: darken($color: tan, $amount: 50) !important;
       text-transform: capitalize;
+      text-decoration: none;
     }
     
     .sidebar {
@@ -265,6 +266,9 @@
     }
 
     .sidebar {
+      position: fixed;
+      height: 100%;
+      width: 100%;
       #chat > div > div {
         display: none;
       }
