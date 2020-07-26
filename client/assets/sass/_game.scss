@@ -85,8 +85,9 @@
           padding: 10px;
 
           &::-webkit-scrollbar {
-            width: 3px;
+            width: 2px;
             border-radius: 5px;
+            position: absolute;
           }
           
             // Track 
@@ -96,7 +97,7 @@
            
           // Handle
           &::-webkit-scrollbar-thumb {
-            background: darken($color: tan, $amount: 15); 
+            background: darken($color: tan, $amount: 25); 
             max-height: 5px;
             border-radius: 10px;
           }
@@ -115,9 +116,9 @@
               width: 70%;
               padding: 5px 10px;
               margin-bottom: 3px;
-              // background-color: darken($color: tan, $amount: 10);
+              background-color: darken($color: tan, $amount: 0);
 
-              background-color: lighten($color: #c49c67, $amount: 10);
+              // background-color: lighten($color: #c49c67, $amount: 10);
 
               border-radius: 10px;
               color: darken($color: tan, $amount: 50);
@@ -127,7 +128,8 @@
 
               p {
                 margin: 0;
-                // max-width: 100%;
+                word-break: break-all;
+                white-space: normal;
               }
 
               small {
@@ -200,13 +202,13 @@
 
       .emojis {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         margin-top: 10px;
         
         div {
           margin: 1px;
-          background-color: grey;
+          background-color: lighten($color: tan, $amount: 15);
           padding: 4px 6px;
           cursor: pointer;
           border-radius: 5px;
