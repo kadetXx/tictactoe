@@ -58,6 +58,11 @@
   document.querySelector('#logout').addEventListener('click', (e) => {
     localStorage.removeItem('traverticUser')
   })
+
+  window.addEventListener('resize', () => {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+  });
 </script>
 
 </body>
