@@ -59,9 +59,9 @@ if (!username) {
 
       scrollableArea.scrollTop = scrollableArea.scrollHeight;
 
-      // setTimeout(() => {
+      setTimeout(() => {
         window.scrollBy(0, 1000)
-      // }, 1000);
+      }, 500);
 
       let message = document.querySelector('#chat input');
 
