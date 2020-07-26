@@ -98,6 +98,11 @@ if (!username) {
         players.innerText = `${users[0].username} Vs ${users[1].username}`
       } else {
         players.innerText = `Waiting for an opponent...`
+        socket.emit('state-change', [
+          '','','',
+          '','','',
+          '','','',
+        ]);
       }
     }
 

@@ -11,7 +11,13 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 let botName = 'GameBot'
-let connectedUsers = 0
+let connectedUsers = 0;
+
+let resetBoard = [
+  '','','',
+  '','','',
+  '','',''
+]
 
 // run when client connects
 io.on('connection', socket => {
@@ -70,14 +76,17 @@ io.on('connection', socket => {
     
       //check if there is a second player to start game
       if (user.id == users[0].id && users[1]) {
+        
         socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
         socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
   
         io.to(user.room).emit('entry', [move, 'X']);
       } else if (users[1] && user.id == users[1].id) {
+        
         socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
         socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
         io.to(user.room).emit('entry', [move, 'O']);
+        
       } else if (!users[1]){
         socket.emit('message', game.formatMsg(botName, 'Hang on, someone will join soon 😇😇', 'left'));
       } else {
@@ -103,12 +112,6 @@ io.on('connection', socket => {
 
     let user = game.getCurrentUser(socket.id);
     let users = game.getRoomUsers(user.room);
-
-    let resetBoard = [
-      '','','',
-      '','','',
-      '','',''
-    ]
 
     io.to(user.room).emit('state-change', resetBoard);
     io.to(user.room).emit('gameOver', `${data} reload to play again`);
