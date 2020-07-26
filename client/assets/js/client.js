@@ -4,7 +4,6 @@ let { username, room  } = Qs.parse(location.search, {
 });
 
 if (!username) {
-  
 
   //check localstorage for username
   username = localStorage.getItem('traverticUser') || prompt('Choose a username');;
@@ -36,6 +35,21 @@ if (!username) {
       msgBox.appendChild(msg);
     })
 
+    // show error on server restart
+    socket.on('reload', data => {
+      let board = document.querySelector('.dashboard .content');
+      let reloadUrl = window.location.href
+      board.innerHTML = `
+      <div class="error-message">
+      <i class="material-icons">
+      sentiment_very_dissatisfied
+      </i>
+      <h1>Opps! Couldn't connect</h1>
+      <p>Seems like you are no longer connected to the game, try <a href="${reloadUrl}">reloading the page</a></p>
+      </div>
+      `
+    })
+
     // allow users send messages
     let form = document.querySelector('#chat');
 
@@ -47,7 +61,7 @@ if (!username) {
       socket.emit('chatMessage', msg);
     })
 
-    // eneble emojis
+    // enable emojis
     document.querySelectorAll('.emojis div').forEach(emoji => {
       emoji.addEventListener('click', (e) => {
         document.querySelector('#msg').value += emoji.innerText
@@ -64,8 +78,8 @@ if (!username) {
 
     // output room name
     function showName(name) {
-      let roomName = document.querySelector('.sidebar h3');
-      roomName.innerText = `Game Room ${name}`;
+      let roomName = document.querySelector('.sidebar p span');
+      roomName.innerText = `${name}`;
     }
 
     // output room members
@@ -76,7 +90,7 @@ if (!username) {
       if(users[1]) {
         players.innerText = `${users[0].username} Vs ${users[1].username}`
       } else {
-        players.innerText = `Waiting for an opponent`
+        players.innerText = `Waiting for an opponent...`
       }
     }
 

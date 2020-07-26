@@ -11,10 +11,12 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 let botName = 'GameBot'
+let connectedUsers = 0
 
 // run when client connects
 io.on('connection', socket => {
-  console.log('New connection...');
+  connectedUsers++
+  console.log(`Connecdted Users: ${connectedUsers}`);
 
   socket.on('joinRoom', ({username, room}) => {
 
@@ -22,7 +24,7 @@ io.on('connection', socket => {
     socket.join(user.room)
 
     // send message to single user
-    socket.emit('message', game.formatMsg(botName, `Welcome ${user.username}`, 'right'))
+    socket.emit('message', game.formatMsg(botName, `Welcome ${user.username}`, 'left'))
 
     // send message to all other users
     socket.broadcast.to(user.room).emit('message', game.formatMsg(botName, `${user.username} has joined`, 'left'));
@@ -36,27 +38,50 @@ io.on('connection', socket => {
 
   // listen for chat message
   socket.on('chatMessage', msg => {
+
     let user = game.getCurrentUser(socket.id);
-    socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
-    socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
+
+    if (!user) {
+      
+      socket.emit('message', game.formatMsg(botName, 'Please reload 🙂', 'left'));
+      socket.emit('reload', 'An error occured');
+
+    } else { 
+      let user = game.getCurrentUser(socket.id);
+      socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
+      socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
+    }
   })
 
 
   //call turn function 
   socket.on('entry', move => {
-    let user = game.getCurrentUser(socket.id);
-    let users = game.getRoomUsers(user.room);
-    
-    if (user.id == users[0].id && users[1].id) {
-      socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
-      socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
 
-      io.to(user.room).emit('entry', [move, 'X']);
-    } else if (user.id == users[1].id) {
-      socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
-      socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
-      io.to(user.room).emit('entry', [move, 'O']);
+    let user = game.getCurrentUser(socket.id);
+
+    //check if the server restarted
+    if (!user) {
+      
+      socket.emit('reload', 'An error occured');
+
+    } else {
+
+      let users = game.getRoomUsers(user.room);
+      console.log(users)
+
+      //check if there is a second player to start game
+      if (user.id == users[0].id && users[1]) {
+        socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
+        socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
+  
+        io.to(user.room).emit('entry', [move, 'X']);
+      } else if (users[1] && user.id == users[1].id) {
+        socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
+        socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
+        io.to(user.room).emit('entry', [move, 'O']);
+      }
     }
+    
   })
 
 
@@ -75,13 +100,21 @@ io.on('connection', socket => {
 
     let user = game.getCurrentUser(socket.id);
     let users = game.getRoomUsers(user.room);
- 
+
+    let resetBoard = [
+      '','','',
+      '','','',
+      '','',''
+    ]
+
+    io.to(user.room).emit('state-change', resetBoard);
     io.to(user.room).emit('gameOver', `${data} reload to play again`);
     io.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
   })
   
   // handle disconnection
   socket.on('disconnect', () => {
+    connectedUsers--
 
     const user = game.userLeaves(socket.id);
 
@@ -102,5 +135,5 @@ app.use(express.static(path.join(__dirname, 'client')))
 const PORT = process.env.PORT || 3000 ;
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`);
 })
