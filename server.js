@@ -22,7 +22,7 @@ let resetBoard = [
 // run when client connects
 io.on('connection', socket => {
   connectedUsers++
-  console.log(`Connecdted Users: ${connectedUsers}`);
+  console.log(`Connected Users: ${connectedUsers}`);
 
   socket.on('joinRoom', ({username, room}) => {
 

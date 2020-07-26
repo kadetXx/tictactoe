@@ -1,7 +1,6 @@
 #game {
   background-color: lighten($color: tan, $amount: 20);
   overflow-x: hidden;
-  height: calc(var(--vh, 1vh) * 100);
   
   .dashboard {
     height: 100vh;
@@ -284,6 +283,7 @@
   @media (max-width: 993px) {
     .dashboard {
       .content {
+        height: calc(var(--vh, 1vh) * 100);
         position: absolute;
         display: flex;
         z-index: 9;
