@@ -131,17 +131,35 @@ if (!username) {
       })
     })
 
+    // decide if x or o
+    let i = 2;
 
     // show changes 
     socket.on('entry', data => {
-      squares[data[0]].innerText = data[1];
+
+      if (i%2 == 0) {
+        squares[data].innerText = 'X';
+        
+        i++
+
+      } else {
+        squares[data].innerText = 'O';
+
+        i--
+      }
 
       getBoardState();
     })
 
     // change turn
     socket.on('changeTurn', data => {
-      document.querySelector('.board .game').className = `game ${data.className}`
+
+      // disable click on other player
+      document.querySelector('.board .game').className = `game ${data.className}`;
+
+      // show whose turn it is
+      document.querySelector('.scores h2').innerText = `${data.feedback}`
+      
     })
 
     // state change

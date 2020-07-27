@@ -30,8 +30,12 @@ document.querySelector('#show-game-mobile').addEventListener('click', e => {
   document.querySelector('.content').classList.add('content-show')
 })
 
-document.querySelector('#hide-game-mobile').addEventListener('click', e => {
-  document.querySelector('.content').classList.remove('content-show')
+document.querySelector('.toggle-buttons').addEventListener('click', e => {
+
+  if (e.target.id == 'hide-game-mobile') {
+    document.querySelector('.content').classList.remove('content-show')
+  }
+
 })
 
 

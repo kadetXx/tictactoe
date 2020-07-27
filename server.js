@@ -99,20 +99,36 @@ io.on('connection', socket => {
       //check if there is a second player to start game
       if (user.id == users[0].id && users[1]) {
         
-        socket.emit('changeTurn', game.changeTurn(users[1].username, 'disable'));
-        socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
+        // disable double play 
+        socket.emit('changeTurn', game.changeTurn(`${users[1].username}'s turn`, 'disable'));
+
+        // allow second player to play
+        io.to(users[1].id).emit('changeTurn', game.changeTurn(`Your turn`, 'enable'));
   
-        io.to(user.room).emit('entry', [move, 'X']);
-      } else if (users[1] && user.id == users[1].id) {
-        
-        socket.emit('changeTurn', game.changeTurn(users[0].username, 'disable'));
-        socket.broadcast.to(user.room).emit('changeTurn', game.changeTurn(users[1].username, 'enable'));
-        io.to(user.room).emit('entry', [move, 'O']);
-        
+        // show user's move
+        io.to(user.room).emit('entry', move);
+
+      } else if (user.id == users[1].id) {
+
+        // disable double play 
+        socket.emit('changeTurn', game.changeTurn(`${users[0].username}'s turn`, 'disable'));
+
+        // allow second player to play
+        io.to(users[0].id).emit('changeTurn', game.changeTurn(`Your turn`, 'enable'));
+  
+        // show user's move
+        io.to(user.room).emit('entry', move);
+
       } else if (!users[1]){
+
+        // send bot message if there are no opponents
         socket.emit('message', game.formatMsg(botName, 'Hang on, someone will join soon 😇😇', 'left'));
+
       } else {
+
+        // ward spectators not to touch the board
         socket.emit('message', game.formatMsg(botName, "Hand's off, you are spectating", 'left'));
+
       }
     }
     
@@ -155,7 +171,9 @@ io.on('connection', socket => {
       let users = game.getRoomUsers(user.room);
 
       // set new admin
-      io.to(users[0].id).emit('admin', true);
+      if (users[0]) {
+        io.to(users[0].id).emit('admin', true);
+      }
       
       // send room users info
       io.to(user.room).emit('roomUsers', {

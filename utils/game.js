@@ -44,11 +44,10 @@ class game {
     return users.filter(user => user.room == room);
   }
 
-  static changeTurn(userName, className, feedBack) {
+  static changeTurn(feedback, className) {
     return {
-      userName,
+      feedback,
       className,
-      // feedback
     }
   }
 }
