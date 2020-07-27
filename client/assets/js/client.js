@@ -22,7 +22,15 @@ if (!username) {
     socket.emit('joinRoom',  {username, room});
 
     // set chat url
-    document.querySelector('#join').setAttribute('href', window.location.href)
+    document.querySelector('#join').setAttribute('href', window.location.href);
+
+    // set room admin
+    socket.on('admin', status => {
+      document.querySelector('.toggle-buttons').innerHTML += 
+      `
+      <button id="#reset" class="btn btn-dark">Play Again</button>
+      `
+    })
 
     // show init message 
     socket.on('message', message => {
@@ -103,20 +111,20 @@ if (!username) {
       } else {
         players.innerText = `Waiting for an opponent...`
         socket.emit('state-change', [
-          '','','',
-          '','','',
-          '','','',
+          ' ',' ',' ',
+          ' ',' ',' ',
+          ' ',' ',' ',
         ]);
       }
     }
 
 
-    // gamebox selector
+    // alow users click gamebox
     let squares = document.querySelectorAll('.board .game div');
 
     squares.forEach((box, index) => {
       box.addEventListener('click', (e) => {
-        if(!e.target.innerText) {
+        if(e.target.innerText = ' ') {
           socket.emit('entry', index);
         }
       })
@@ -142,15 +150,16 @@ if (!username) {
         if (square.innerText) {
           obj[index] = square.innerText;
         } else {
-          obj[index] = '';
+          obj[index] = ' ';
         }
       })
 
       socket.emit('state-change', obj)
     } 
 
-    // receive changes
+    // receive changes and check for game over
     socket.on('state-change', (state) => {
+      
       squares.forEach((square, index) => {
         square.innerText = state[index];
       })
@@ -171,7 +180,7 @@ if (!username) {
       rows.forEach(row => {
         if (row == win[0] || row == win[1]) {
         socket.emit('gameOver', 'Game Over');
-        } else if (row.indexOf('') == -1) {
+        } else if (row.indexOf(' ') == -1) {
           socket.emit('gameOver', 'Draw');
         }
       })
@@ -180,6 +189,7 @@ if (!username) {
     //on game over 
     socket.on('gameOver', data => {
       document.querySelector('.scores h2').innerText = `${data}`
+      
     })
 
   }

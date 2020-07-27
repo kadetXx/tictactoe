@@ -27,13 +27,21 @@ io.on('connection', socket => {
   socket.on('joinRoom', ({username, room}) => {
 
     const user = game.userJoin(socket.id, username, room);
-    socket.join(user.room)
+    let users = game.getRoomUsers(user.room);
+
+    //add user to room
+    socket.join(user.room);
 
     // send message to single user
     socket.emit('message', game.formatMsg(botName, `Welcome ${user.username}`, 'left'))
 
     // send message to all other users
     socket.broadcast.to(user.room).emit('message', game.formatMsg(botName, `${user.username} has joined`, 'left'));
+
+    // set room admin
+    io.to(users[0].id).emit('admin', true);
+    io.to(users[0].id).emit('message', game.formatMsg(botName, `Hi ${user.username} You are now admin`, 'left'))
+  
 
     // send room users info
     io.to(user.room).emit('roomUsers', {
@@ -54,8 +62,18 @@ io.on('connection', socket => {
 
     } else { 
       let user = game.getCurrentUser(socket.id);
+      let users = game.getRoomUsers(user.room);
+
+      // show user their message
       socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
-      socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
+
+      //other users messages
+      if (socket.id == users[0].id) {
+        socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username} (admin)`, msg, 'left'));
+      } else {
+        socket.broadcast.to(user.room).emit('message', game.formatMsg(`${user.username}`, msg, 'left'));
+      }
+
     }
   })
 
