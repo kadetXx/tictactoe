@@ -108,7 +108,7 @@ io.on('connection', socket => {
         // show user's move
         io.to(user.room).emit('entry', move);
 
-      } else if (user.id == users[1].id) {
+      } else if (users[1] && user.id == users[1].id) {
 
         // disable double play 
         socket.emit('changeTurn', game.changeTurn(`${users[0].username}'s turn`, 'disable'));
@@ -151,9 +151,26 @@ io.on('connection', socket => {
     let user = game.getCurrentUser(socket.id);
     let users = game.getRoomUsers(user.room);
 
-    io.to(user.room).emit('state-change', resetBoard);
-    io.to(user.room).emit('gameOver', `${data} reload to play again`);
-    io.to(user.room).emit('changeTurn', game.changeTurn('', 'disable'));
+    if (users && user.id == users[0].id && !data.draw) {
+
+      socket.emit('changeTurn', game.changeTurn(`Game Over, You Win!`, 'disable'));
+
+      io.to(users[1].id).emit('changeTurn', game.changeTurn('Game Over, You Lost', 'disable'));
+
+    } else if (users[1] && user.id == users[1].id && !data.draw) {
+      
+      socket.emit('changeTurn', game.changeTurn(`Game Over, You Win!`, 'disable'));
+
+      io.to(users[0].id).emit('changeTurn', game.changeTurn('Game Over, You Lost', 'disable'));
+
+    } else {
+      io.to(user.room).emit('changeTurn', game.changeTurn(`Game Over, It's a draw`, 'disable'))
+    }
+
+    // io.to(user.room).emit('state-change', resetBoard);
+    // io.to(user.room).emit('gameOver', `${data} reload to play again`);
+    
+
   })
   
   // handle disconnection
@@ -173,6 +190,15 @@ io.on('connection', socket => {
       // set new admin
       if (users[0]) {
         io.to(users[0].id).emit('admin', true);
+      }
+
+      // reset the board if there is no other user
+      if (!users[1]) {
+        io.to(user.room).emit('state-change', [
+          ' ', ' ', ' ',
+          ' ', ' ', ' ',
+          ' ', ' ', ' ',
+        ]); 
       }
       
       // send room users info

@@ -111,11 +111,6 @@ if (!username) {
         players.innerText = `${users[0].username} Vs ${users[1].username}`
       } else {
         players.innerText = `Waiting for an opponent...`
-        socket.emit('state-change', [
-          ' ',' ',' ',
-          ' ',' ',' ',
-          ' ',' ',' ',
-        ]);
       }
     }
 
@@ -159,7 +154,7 @@ if (!username) {
 
       // show whose turn it is
       document.querySelector('.scores h2').innerText = `${data.feedback}`
-      
+
     })
 
     // state change
@@ -184,31 +179,44 @@ if (!username) {
       })
 
       let rows = [
-        `${state[0]} ${state[1]} ${state[2]}`,
-        `${state[3]} ${state[4]} ${state[5]}`,
-        `${state[6]} ${state[7]} ${state[8]}`,
-        `${state[0]} ${state[4]} ${state[8]}`,
-        `${state[2]} ${state[4]} ${state[6]}`,
-        `${state[0]} ${state[3]} ${state[6]}`,
-        `${state[1]} ${state[4]} ${state[7]}`,
-        `${state[2]} ${state[5]} ${state[8]}`,
+        `${state[0]}${state[1]}${state[2]}`,
+        `${state[3]}${state[4]}${state[5]}`,
+        `${state[6]}${state[7]}${state[8]}`,
+        `${state[0]}${state[4]}${state[8]}`,
+        `${state[2]}${state[4]}${state[6]}`,
+        `${state[0]}${state[3]}${state[6]}`,
+        `${state[1]}${state[4]}${state[7]}`,
+        `${state[2]}${state[5]}${state[8]}`,
       ];
 
-      let win = ['X X X', 'O O O'];
+      let win = ['XXX', 'OOO'];
 
+      // check for win
       rows.forEach(row => {
+        
         if (row == win[0] || row == win[1]) {
-        socket.emit('gameOver', 'Game Over');
-        } else if (row.indexOf(' ') == -1) {
-          socket.emit('gameOver', 'Draw');
-        }
-      })
+
+        socket.emit('gameOver', {draw: false});
+
+        } 
+      });
+
+      // check for draw
+      let all = rows.join('');
+      console.log(all)
+
+      if (all.indexOf(' ') == -1) {
+        
+        socket.emit('gameOver', {draw: true});
+      }
+      
     });
 
     //on game over 
     socket.on('gameOver', data => {
-      document.querySelector('.scores h2').innerText = `${data}`
-      
+
+      // document.querySelector('.scores h2').innerText = `${data}`
+  
     })
 
   }
