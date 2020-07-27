@@ -26,8 +26,9 @@ if (!username) {
 
     // set room admin
     socket.on('admin', status => {
-      document.querySelector('.toggle-buttons').innerHTML += 
+      document.querySelector('.toggle-buttons').innerHTML = 
       `
+      <button id="hide-game-mobile" class="btn btn-dark">Chatroom</button>
       <button id="#reset" class="btn btn-dark">Play Again</button>
       `
     })

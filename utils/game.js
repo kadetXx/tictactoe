@@ -48,7 +48,7 @@ class game {
     return {
       userName,
       className,
-      feedback
+      // feedback
     }
   }
 }

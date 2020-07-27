@@ -40,7 +40,6 @@ io.on('connection', socket => {
 
     // set room admin
     io.to(users[0].id).emit('admin', true);
-    io.to(users[0].id).emit('message', game.formatMsg(botName, `Hi ${user.username} You are now admin`, 'left'))
   
 
     // send room users info
@@ -65,7 +64,12 @@ io.on('connection', socket => {
       let users = game.getRoomUsers(user.room);
 
       // show user their message
-      socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
+      if (socket.id == users[0].id) {
+        socket.emit('message', game.formatMsg(`${user.username} (admin)`, msg, 'right'));
+      } else {
+        socket.emit('message', game.formatMsg(`${user.username}`, msg, 'right'));
+      }
+      
 
       //other users messages
       if (socket.id == users[0].id) {
@@ -140,16 +144,23 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     connectedUsers--
 
+    // remove user from room and return user object
     const user = game.userLeaves(socket.id);
 
     if (user) {
       //notify members of leave
       io.to(user.room).emit('message', game.formatMsg(botName, `${user.username} just left`, 'left'));
+
+      // get current room users
+      let users = game.getRoomUsers(user.room);
+
+      // set new admin
+      io.to(users[0].id).emit('admin', true);
       
       // send room users info
       io.to(user.room).emit('roomUsers', {
         room: user.room,
-        users: game.getRoomUsers(user.room),
+        users: users
       });
     }
   })
