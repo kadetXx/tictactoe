@@ -111,6 +111,9 @@ if (!username) {
         players.innerText = `${users[0].username} Vs ${users[1].username}`
       } else {
         players.innerText = `Waiting for an opponent...`
+
+        // set the value of I back to initial
+        i = 2
       }
     }
 
@@ -153,7 +156,7 @@ if (!username) {
       document.querySelector('.board .game').className = `game ${data.className}`;
 
       // show whose turn it is
-      document.querySelector('.scores h2').innerText = `${data.feedback}`
+      document.querySelector('.scores h2').innerText = `${data.feedback}`;
 
     })
 
