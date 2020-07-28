@@ -29,7 +29,7 @@ if (!username) {
       document.querySelector('.toggle-buttons').innerHTML = 
       `
       <button id="hide-game-mobile" class="btn btn-dark">Chatroom</button>
-      <button id="#reset" class="btn btn-dark">Play Again</button>
+      <button id="#reset" class="btn btn-dark invisible">Play Again</button>
       `
     })
 
@@ -120,7 +120,7 @@ if (!username) {
 
     squares.forEach((box, index) => {
       box.addEventListener('click', (e) => {
-        if(e.target.innerText = ' ') {
+        if(e.target.innerText == '') {
           socket.emit('entry', index);
         }
       })
@@ -203,7 +203,6 @@ if (!username) {
 
       // check for draw
       let all = rows.join('');
-      console.log(all)
 
       if (all.indexOf(' ') == -1) {
         
@@ -213,9 +212,13 @@ if (!username) {
     });
 
     //on game over 
-    socket.on('gameOver', data => {
+    socket.on('showReplay', data => {
 
-      // document.querySelector('.scores h2').innerText = `${data}`
+      document.querySelector('.toggle-buttons').innerHTML = 
+      `
+      <button id="hide-game-mobile" class="btn btn-dark">Chatroom</button>
+      <button id="#reset" class="btn btn-dark visible">Play Again</button>
+      `
   
     })
 

@@ -166,10 +166,8 @@ io.on('connection', socket => {
     } else {
       io.to(user.room).emit('changeTurn', game.changeTurn(`Game Over, It's a draw`, 'disable'))
     }
-
-    // io.to(user.room).emit('state-change', resetBoard);
-    // io.to(user.room).emit('gameOver', `${data} reload to play again`);
     
+    io.to(users[0].id).emit('showReplay', true);
 
   })
   

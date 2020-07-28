@@ -284,6 +284,10 @@
         #reset {
           display: inline-block;
         }
+
+        #reset.invisible {
+          display: none;
+        }
         
       }
     }
